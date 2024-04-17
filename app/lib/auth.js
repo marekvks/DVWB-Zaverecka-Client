@@ -1,21 +1,24 @@
-export const isLoggedIn = async (accessToken, refreshToken) => {
-    if (!accessToken)
+export const isLoggedIn = async (request, response) => {
+    if (!request || !request.cookies)
         return false;
 
-    accessToken = accessToken.value;
+    let accessToken = request.cookies.get('accessToken').value;
+    const refreshToken = request.cookies.get('refreshToken').value;
 
     let loggedIn = await tryLoggedInEndpoint(accessToken);
 
-    if (!loggedIn) {
-        if (!refreshToken)
-            return false;
+    if (loggedIn)
+        return loggedIn;
 
-        refreshToken = refreshToken.value;
-        const refreshedToken = await refreshAccessToken(refreshToken);
-        if (!refreshedToken)
-            loggedIn = false;
-        else
-            loggedIn = await tryLoggedInEndpoint();
+    if (!refreshToken)
+        return false;
+
+    accessToken = await refreshAccessToken(refreshToken);
+    if (!accessToken)
+        loggedIn = false;
+    else {
+        response.cookies.set('accessToken', accessToken);
+        loggedIn = await tryLoggedInEndpoint(accessToken);
     }
 
     return loggedIn;
@@ -40,7 +43,8 @@ const refreshAccessToken = async (refreshToken) => {
         }
     });
 
-    console.log('idk', response.headers.getSetCookie());
+    const data = await response.json();
+    const accessToken = data.accessToken;
 
-    return response.status === 200;
+    return accessToken;
 }

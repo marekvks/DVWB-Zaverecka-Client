@@ -1,12 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { isLoggedIn } from './app/lib/auth';
 
-// This function can be marked `async` if using `await` inside
+const routesRedirectedToHomePage = ['/login', '/register'];
+const routesRedirectedToLogin = ['/userSettings'];
+
 export async function middleware(request) {
-  if (request.nextUrl.pathname === '/login') {
-    const loggedIn = await isLoggedIn(request.cookies.get('accessToken'), request.cookies.get('refreshToken'));
-    console.log(loggedIn);
+  let response = NextResponse.next();
+  const nextPath = request.nextUrl.pathname;
+
+  if (routesRedirectedToHomePage.includes(nextPath)) {
+    response = NextResponse.redirect(new URL('/', request.url));
+
+    const loggedIn = await isLoggedIn(request, response);
     if (loggedIn)
-      return NextResponse.redirect(new URL('/', request.url));
+      return response;
+  }
+  else if (routesRedirectedToLogin.includes(nextPath)) {
+    response = NextResponse.redirect(new URL('/login', request.url));
+
+    const loggedIn = await isLoggedIn(request, response);
+    if (!loggedIn)
+      return response;
   }
 }
