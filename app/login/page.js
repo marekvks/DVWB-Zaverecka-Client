@@ -1,7 +1,8 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
+import { isLoggedIn } from "../lib/auth";
 
 export const login = async (email, password) => {
     const reqBody = { email: email, password: password }
@@ -24,36 +25,26 @@ export const login = async (email, password) => {
     return false;
 }
 
-export const isLoggedIn = async () => {
-  const accessToken = sessionStorage.getItem('accessToken');
-
-  if (!accessToken)
-      return false;
-
-  const response = await fetch('http://localhost:8080/auth/loggedIn', {
-      method: 'GET',
-      headers: {
-          'Authorization': `Bearer ${accessToken}`
-      }
-  });
-
-  if (response.status == 200)
-      return true;
-
-  return false;
-}
-
 export default function Login() {
     const router = useRouter();
 
+    const [render, setRender] = useState(false);
+
     useLayoutEffect(() => {
-      let loggedIn = false;
+      let loggedIn = true;
       (async () => {
         loggedIn = await isLoggedIn();
+        console.log(loggedIn);
         if (loggedIn)
           router.push('/');
+          return <></>;
       })();
-    });
+      if (!loggedIn)
+          setRender(true);
+  });
+
+  if (!render)
+        return null;
 
   return (
     <main>

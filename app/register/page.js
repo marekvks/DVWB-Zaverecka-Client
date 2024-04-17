@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
-import { login, isLoggedIn } from "../login/page";
+import { login } from "../login/page";
+import { isLoggedIn } from "../lib/auth.js";
 import '../css/auth.css';
 
 export default function Register() {
@@ -13,15 +14,18 @@ export default function Register() {
     useLayoutEffect(() => {
         let loggedIn = false;
         (async () => {
-          loggedIn = true;
-          if (loggedIn)
+          loggedIn = await isLoggedIn();
+          console.log(loggedIn);
+          if (loggedIn) {
             router.push('/');
             return <></>;
+          }
         })();
         if (!loggedIn)
             setRender(true);
     });
 
+    console.log(render);
     if (!render)
         return null;
 
