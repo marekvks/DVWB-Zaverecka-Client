@@ -55,3 +55,57 @@ const refreshAccessToken = async (refreshToken) => {
 
     return accessToken;
 }
+
+export const getAccessToken = async (cookies) => {
+    if (!cookies)
+        return null;
+
+    let accessToken = cookies.get('accessToken');
+    
+    const accessTokenOk = await tryLoggedInEndpoint(accessToken);
+
+    if (!accessTokenOk) {
+        const response = await fetch('http://localhost:8080/auth/token', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (response.status != 200)
+            return null;
+
+        const data = await response.json();
+        accessToken = data.accessToken;
+        return accessToken;
+    }
+
+    return accessToken;
+};
+
+export const login = async (email, password) => {
+    const reqBody = { email: email, password: password }
+
+    const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(reqBody)
+    });
+
+    return response.status === 200;
+}
+
+export const register = async (username, email, password) => {
+    const reqBody = { username, email, password };
+    
+    const response = await fetch('http://localhost:8080/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(reqBody)
+    });
+
+    return response.status === 201;
+}
