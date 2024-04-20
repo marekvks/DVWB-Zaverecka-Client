@@ -1,0 +1,19 @@
+body{
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form input{
+    
+}
+
+form button{
+    width: 20%;
+}
