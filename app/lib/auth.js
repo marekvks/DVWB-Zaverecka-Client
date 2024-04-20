@@ -2,8 +2,13 @@ export const isLoggedIn = async (request, response) => {
     if (!request || !request.cookies)
         return false;
 
-    let accessToken = request.cookies.get('accessToken').value;
-    const refreshToken = request.cookies.get('refreshToken').value;
+    let accessToken = request.cookies.get('accessToken');
+    let refreshToken = request.cookies.get('refreshToken');
+
+    if (!accessToken)
+        return false;
+
+        accessToken = accessToken.value;
 
     let loggedIn = await tryLoggedInEndpoint(accessToken);
 
@@ -12,6 +17,8 @@ export const isLoggedIn = async (request, response) => {
 
     if (!refreshToken)
         return false;
+
+    refreshToken = refreshToken.value;
 
     accessToken = await refreshAccessToken(refreshToken);
     if (!accessToken)
