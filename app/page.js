@@ -1,9 +1,8 @@
-'use client'
+import Navbar from "./components/navbar";
 
-import { logout } from "./lib/auth";
+import './css/landing-page.css';
 
 export default function Home() {
-
   const handleLogout = async () => {
     const response = await fetch('http://localhost:8080/auth/logout', {
         method: 'DELETE',
@@ -11,7 +10,7 @@ export default function Home() {
     });
   }
 
-  const createBlogpost = async() => {
+  const createBlogpost = async () => {
     const response = await fetch('http://localhost:8080/auth/logout', {
       method: 'GET',
       credentials: 'include'
@@ -20,9 +19,10 @@ export default function Home() {
 
   return (
     <main>
-      <p>Main page!1!!</p>
-      <button onClick={handleLogout}>LOGOUT</button>
-      <button onClick={createBlogpost}>Create blogpost</button>
+      <Navbar />
+      <section className="landing-section">
+        <h3>BlogPost</h3>
+      </section>
     </main>
   );
 }
