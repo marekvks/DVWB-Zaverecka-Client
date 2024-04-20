@@ -6,7 +6,7 @@ export default function NotFound() {
         <main>
             <Image src="/404.gif" alt="404" width="500" height="500" />
             <h3>404 Not Found.</h3>
-            <p>Look at what you did, bro is angy because of you :(</p>
+            <p>Look at what you did, bro is angwy because of you :(</p>
         </main>
     )
 }
