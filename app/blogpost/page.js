@@ -17,7 +17,7 @@ const BlogPost = () => {
 
     const accessToken = Cookies.get('accessToken');
 
-    const reqBody = {title: title, content: content, id_author: 1};
+    const reqBody = {title: title, description: description,content: content, id_author: 1};
 
     const response = await fetch('http://localhost:8080/blogPost/blogPost', {
         method: 'POST',
