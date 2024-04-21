@@ -2,7 +2,7 @@
 import React from 'react'
 import '../css/blogpost.css';
 import Cookies from 'js-cookie';
-import { Main } from 'next/document';
+import { getAccessToken } from '../lib/auth';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -15,7 +15,7 @@ const BlogPost = () => {
     const description = event.target.description.value;
     const content = event.target.content.value;
 
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = await getAccessToken(Cookies);
 
     const reqBody = {title: title, description: description,content: content, id_author: 1};
 
