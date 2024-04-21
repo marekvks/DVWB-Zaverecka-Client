@@ -6,3 +6,49 @@ main {
 
     background-color: var(--black-background);
 }
+
+.landing-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+    height: calc(70vh - var(--navbar-height));
+}
+
+.landing-section > .text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    width: 50%;
+    height: 400px;
+}
+
+.landing-section > .text-container > .title {
+    font-size: 30px;
+}
+
+.landing-section > .text-container > .description {
+    font-size: 24px;
+
+    color: var(--grey-text)
+}
+
+.landing-section > .image-container > img {
+    border: 2px solid var(--green-bright);
+    border-radius: 50%;
+}
+
+.horizontal-line {
+    display: block;
+    
+    width: 50%;
+    height: 1px;
+
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+
+    background-color: var(--grey);
+}
