@@ -1,54 +1,40 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useState, useLayoutEffect } from "react";
-import { isLoggedIn } from "../lib/auth";
+import { login } from "../lib/auth";
 
-export const login = async (email, password) => {
-    const reqBody = { email: email, password: password }
-
-    const response = await fetch('http://localhost:8080/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(reqBody)
-    });
-
-    if (response.status === 200) {
-        const data = await response.json();
-        const accessToken = data.accessToken;
-        sessionStorage.setItem('accessToken', accessToken);
-        return true;
-    }
-    return false;
-}
+import '../css/auth.css';
 
 export default function Login() {
     const router = useRouter();
 
-    const [render, setRender] = useState(false);
-
-    useLayoutEffect(() => {
-      let loggedIn = true;
-      (async () => {
-        loggedIn = await isLoggedIn();
-        console.log(loggedIn);
+    const handleLogin = async (event) => {
+        event.preventDefault();
+    
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+    
+        const loggedIn = await login(email, password);
         if (loggedIn)
-          router.push('/');
-          return <></>;
-      })();
-      if (!loggedIn)
-          setRender(true);
-  });
+            router.push('/');
+    }
 
-  if (!render)
-        return null;
-
-  return (
-    <main>
-        LOGIN!!!
-    </main>
-  );
+    return (
+        <main>
+            <form onSubmit={handleLogin}>
+                <h1>Login</h1>
+                <div className="input-container">
+                    <div className="input">
+                        <label htmlFor="email">email</label>
+                        <input type="email" name="email" placeholder="example@example.com" />
+                    </div>
+                    <div className="input">
+                        <label htmlFor="password">password</label>
+                        <input type="password" name="password" placeholder="password" />
+                    </div>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    );
 }

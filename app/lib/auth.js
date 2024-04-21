@@ -1,21 +1,31 @@
-export const isLoggedIn = async (accessToken, refreshToken) => {
+export const isLoggedIn = async (request, response) => {
+    if (!request || !request.cookies)
+        return false;
+
+    let accessToken = request.cookies.get('accessToken');
+    let refreshToken = request.cookies.get('refreshToken');
+
     if (!accessToken)
         return false;
 
-    accessToken = accessToken.value;
+        accessToken = accessToken.value;
 
     let loggedIn = await tryLoggedInEndpoint(accessToken);
 
-    if (!loggedIn) {
-        if (!refreshToken)
-            return false;
+    if (loggedIn)
+        return loggedIn;
 
-        refreshToken = refreshToken.value;
-        const refreshedToken = await refreshAccessToken(refreshToken);
-        if (!refreshedToken)
-            loggedIn = false;
-        else
-            loggedIn = await tryLoggedInEndpoint();
+    if (!refreshToken)
+        return false;
+
+    refreshToken = refreshToken.value;
+
+    accessToken = await refreshAccessToken(refreshToken);
+    if (!accessToken)
+        loggedIn = false;
+    else {
+        response.cookies.set('accessToken', accessToken);
+        loggedIn = await tryLoggedInEndpoint(accessToken);
     }
 
     return loggedIn;
@@ -40,7 +50,62 @@ const refreshAccessToken = async (refreshToken) => {
         }
     });
 
-    console.log('idk', response.headers.getSetCookie());
+    const data = await response.json();
+    const accessToken = data.accessToken;
+
+    return accessToken;
+}
+
+export const getAccessToken = async (cookies) => {
+    if (!cookies)
+        return null;
+
+    let accessToken = cookies.get('accessToken');
+    
+    const accessTokenOk = await tryLoggedInEndpoint(accessToken);
+
+    if (!accessTokenOk) {
+        const response = await fetch('http://localhost:8080/auth/token', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (response.status != 200)
+            return null;
+
+        const data = await response.json();
+        accessToken = data.accessToken;
+        return accessToken;
+    }
+
+    return accessToken;
+};
+
+export const login = async (email, password) => {
+    const reqBody = { email: email, password: password }
+
+    const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(reqBody)
+    });
 
     return response.status === 200;
+}
+
+export const register = async (username, email, password) => {
+    const reqBody = { username, email, password };
+    
+    const response = await fetch('http://localhost:8080/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(reqBody)
+    });
+
+    return response.status === 201;
 }

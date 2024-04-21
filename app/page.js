@@ -1,9 +1,9 @@
-'use client'
+import Navbar from "./components/navbar";
+import Image from "next/image";
 
-import { logout } from "./lib/auth";
+import './css/landing-page.css';
 
 export default function Home() {
-
   const handleLogout = async () => {
     const response = await fetch('http://localhost:8080/auth/logout', {
         method: 'DELETE',
@@ -11,7 +11,7 @@ export default function Home() {
     });
   }
 
-  const createBlogpost = async() => {
+  const createBlogpost = async () => {
     const response = await fetch('http://localhost:8080/auth/logout', {
       method: 'GET',
       credentials: 'include'
@@ -20,9 +20,17 @@ export default function Home() {
 
   return (
     <main>
-      <p>Main page!1!!</p>
-      <button onClick={handleLogout}>LOGOUT</button>
-      <button onClick={createBlogpost}>Create blogpost</button>
+      <Navbar />
+      <section className="landing-section">
+        <div className="text-container">
+          <h3 className="title">BlogPost</h3>
+          <p className="description">Short description about this blogpost</p>
+        </div>
+        <div className="image-container">
+          <Image src="/raccoon-dance.gif" alt="404" width="300" height="300" />
+        </div>
+      </section>
+      <span className="horizontal-line"></span>
     </main>
   );
 }
