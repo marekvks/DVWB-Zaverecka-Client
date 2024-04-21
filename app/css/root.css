@@ -7,10 +7,12 @@
     --white: #fff;
     --green-bright: #00EB96;
     --green-dark: #006742;
+    --green-link-hover: #00c27b;
     --window-radius: 10px;
     --input-radius: 10px;
     --input-placeholder-offset: 10px;
     --button-radius: 20px;
+    --navbar-height: 90px;
 }
 
 * {

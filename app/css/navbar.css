@@ -6,7 +6,7 @@ header {
     align-items: center;
 
     width: 100%;
-    height: 90px;
+    height: var(--navbar-height);
 }
 
 nav {
@@ -15,7 +15,7 @@ nav {
     align-items: center;
 
     width: 90%;
-    height: 90px;
+    height: var(--navbar-height);
 
     border-bottom: 1px solid var(--grey);
 }
@@ -78,4 +78,16 @@ nav .logo {
 .login-link:hover {
     background-color: var(--black-background);
     color: var(--green-bright);
+}
+
+.user-data > .username {
+    font-size: 24px;
+
+    color: var(--green-bright);
+
+    transition: color 0.2s ease;
+}
+
+.user-data > .username:hover {
+    color: var(--green-link-hover);
 }
