@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
+    "dompurify": "^3.1.0",
+    "marked": "^12.0.2",
     "next": "14.1.3",
     "react": "^18",
     "react-dom": "^18"
