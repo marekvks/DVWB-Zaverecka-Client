@@ -11,7 +11,7 @@ export default function UserData() {
         (async () => {
             const accessToken = await getAccessToken(Cookies);
 
-            const response = await fetch('http://localhost:8080/user/getUser', {
+            const response = await fetch('http://localhost:8080/user/@me', {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`
                 }
