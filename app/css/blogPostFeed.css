@@ -1,0 +1,44 @@
+body {
+    margin: 20px;
+    background: #343d4e;
+}
+
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.blogPostPreview{
+    width: 50vw;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color:#4b5871;
+    border-radius: 30px;
+}
+
+.blogPostPreview *{
+    margin: 10px;
+}
+
+.blogPostPreview img{
+    margin: auto;
+    display: block;
+    border-radius: 30px;
+}
+
+.blogPostTitle{
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.blogPostContent{
+    display: flex;
+}
+
+.blogPostContent p{
+    width: 600px;
+    height: 600px;
+}

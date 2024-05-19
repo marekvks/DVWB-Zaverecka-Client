@@ -1,8 +1,7 @@
 'use client'
 import React from 'react'
-import '../css/blogpost.css';
+import '../css/blogPostEditor.css';
 import Cookies from 'js-cookie';
-import { Main } from 'next/document';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
