@@ -32,7 +32,7 @@ export const isLoggedIn = async (request, response) => {
 }
 
 const tryLoggedInEndpoint = async (accessToken) => {
-    const response = await fetch('http://localhost:8080/auth/loggedIn', {
+    const response = await fetch('http://localhost:8080/auth/authorized', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -43,7 +43,7 @@ const tryLoggedInEndpoint = async (accessToken) => {
 }
 
 const refreshAccessToken = async (refreshToken) => {
-    const response = await fetch('http://localhost:8080/auth/token', {
+    const response = await fetch('http://localhost:8080/auth/accessToken', {
         method: 'GET',
         headers: {
             'Cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly`
@@ -65,7 +65,7 @@ export const getAccessToken = async (cookies) => {
     const accessTokenOk = await tryLoggedInEndpoint(accessToken);
 
     if (!accessTokenOk) {
-        const response = await fetch('http://localhost:8080/auth/token', {
+        const response = await fetch('http://localhost:8080/auth/accessToken', {
             method: 'GET',
             credentials: 'include'
         });
@@ -108,4 +108,24 @@ export const register = async (username, email, password) => {
     });
 
     return response.status === 201;
+}
+
+export const checkRefreshToken = async (request, response) => {
+    let refreshToken = request.cookies.get('refreshToken');
+
+    if (!refreshToken) return;
+
+    refreshToken = refreshToken.value;
+
+    const res = await fetch('http://localhost:8080/auth/refreshToken', {
+        method: 'GET',
+        headers: {
+            'Cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly`
+        }
+    });
+
+    const data = await res.json();
+    if (data.refreshToken) {
+        response.cookies.set('refreshToken', data.refreshToken, { httpOnly: true, secure: false });
+    }
 }

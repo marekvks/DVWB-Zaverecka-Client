@@ -1,25 +1,31 @@
 import { NextResponse } from 'next/server';
-import { isLoggedIn } from './app/lib/auth';
+import { isLoggedIn, checkRefreshToken } from './app/lib/auth';
 
 const routesRedirectedToHomePage = ['/login', '/register'];
 const routesRedirectedToLogin = ['/userData', '/blogpost'];
 
 export async function middleware(request) {
   let response = NextResponse.next();
+
+  // check refresh token
+  await checkRefreshToken(request, response);
+
   const nextPath = request.nextUrl.pathname;
 
   if (routesRedirectedToHomePage.includes(nextPath)) {
-    response = NextResponse.redirect(new URL('/', request.url));
-
     const loggedIn = await isLoggedIn(request, response);
-    if (loggedIn)
+    if (loggedIn) {  
+      response = NextResponse.redirect(new URL('/', request.url));
       return response;
+    }
   }
   else if (routesRedirectedToLogin.includes(nextPath)) {
-    response = NextResponse.redirect(new URL('/login', request.url));
-
     const loggedIn = await isLoggedIn(request, response);
-    if (!loggedIn)
+    if (!loggedIn) {
+      response = NextResponse.redirect(new URL('/login', request.url));
       return response;
+    }
   }
+
+  return response;
 }
