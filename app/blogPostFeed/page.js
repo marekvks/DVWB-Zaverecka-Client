@@ -10,20 +10,44 @@ const BlogPostFeed = async() => {
 
   return (
    <div className='content'>
-    <h1>Blogposts feed</h1>
+
+    <div className='navBarHolder'> 
+      <div className='navBar'>
+
+        <div>
+          <h1>Blogposts feed</h1>
+        </div>
+
+        <input className='searchBar' id='search' name='Search' type='text' placeholder='Search'></input>
+
+        <div className='userNavBar'>
+          <Link href=''>Home</Link>
+          <Link href=''>Suport</Link>
+          <img src='/raccoon-dance.gif' className='userProfilePicture'></img>
+          <p className='username'>marekvks</p>
+        </div>
+
+      </div>
+      <div className='divider'></div>
+    </div>
 
     {blogPosts.map(blogpost => 
         <Link href={'/blogPost/' + blogpost.id_blogpost}>
         <div className='blogPostPreview'>
 
           <div className='blogPostTitle'> 
-          <h2>{blogpost.title}</h2>
-          <p>{blogpost.date}</p>
+            <div className='userProfile'>
+              <img src='/raccoon-dance.gif' className='userProfilePicture'></img>
+              <p className='username'>{blogpost.id_author}</p>
+            </div>
+
+            <h2>{blogpost.title}</h2>
+            <p>{blogpost.date}</p>
           </div>
     
           <div className='blogPostContent'>
             <p>{blogpost.description}</p>
-            <img src='/raccoon-dance.gif' alt="404" height="600" width="600"></img>
+            <img src='/diner.jpg' alt="404"></img>
           </div>
         </div>
         </Link>
