@@ -7,6 +7,10 @@ const routesRedirectedToLogin = ['/userData', '/blogpost'];
 export async function middleware(request) {
   let response = NextResponse.next();
 
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    console.log('api');
+  }
+
   // check refresh token
   await checkRefreshToken(request, response);
 
