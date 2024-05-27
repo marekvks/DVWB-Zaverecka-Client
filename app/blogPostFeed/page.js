@@ -9,7 +9,7 @@ const BlogPostFeed = async() => {
   const blogPosts = await res.json();
 
   return (
-   <div className='content'>
+  <div className='content'>
 
     <div className='navBarHolder'> 
       <div className='navBar'>
@@ -18,7 +18,10 @@ const BlogPostFeed = async() => {
           <h1>Blogposts feed</h1>
         </div>
 
-        <input className='searchBar' id='search' name='Search' type='text' placeholder='Search'></input>
+        <form className='searchBarDiv'>
+          <img src='/search_icon.jpeg'></img>
+          <input className='searchBar' id='search' name='Search' type='text' placeholder='Search'></input>
+        </form>
 
         <div className='userNavBar'>
           <Link href=''>Home</Link>

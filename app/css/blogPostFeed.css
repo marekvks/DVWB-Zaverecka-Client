@@ -42,14 +42,29 @@
     margin-inline-start: 30px;
 }
 
-.searchBar{
-    border-radius: 10px;
-    height: 30px;
-    width: 450px;
-    color: black;
-    background-color: white;
-    margin-right: 50px;
+.searchBarDiv{
+    width: 600px;
+    display: flex;
+    border-radius: 28px;
+    background: #f6f6f6;
+}
+
+.searchBarDiv img{
+    width: 25px;
+    height: 25px;
     align-self: center;
+    margin: 0px;
+}
+
+.searchBar{
+    font-size: 16px;
+    font-style: 'Lexend', sant-serif;
+    color: #333333;
+    margin-left: 14px;
+    outline: none;
+    border: none;
+    background: transparent;
+
 }
 
 .divider{
