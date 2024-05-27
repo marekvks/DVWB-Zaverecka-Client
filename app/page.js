@@ -7,10 +7,6 @@ import Image from "next/image";
 import './css/landing-page.css';
 
 export default function Home() {
-  useEffect(() => {
-    handleLogout();
-  }, []);
-
   const handleLogout = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`, {
         method: 'DELETE',
