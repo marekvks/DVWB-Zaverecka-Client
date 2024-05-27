@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { getAccessToken } from '../lib/auth';
 import Cookies from 'js-cookie';
 
 export default function UserData() {
     const [userData, setUserData] = useState({});
-    const accessToken = Cookies.get("accessToken");
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('http://localhost:8080/user/getUser', {
+            const accessToken = await getAccessToken(Cookies);
+
+            const response = await fetch('http://localhost:8080/user/@me', {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`
                 }

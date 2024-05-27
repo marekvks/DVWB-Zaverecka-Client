@@ -13,3 +13,7 @@ h3 {
     font-size: 50px;
     font-weight: 300;
 }
+
+img {
+    border-radius: 50%;
+}
