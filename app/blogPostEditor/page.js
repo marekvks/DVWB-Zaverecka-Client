@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
-import '../css/blogPostEditor.css';
+import '@/css/blogPostEditor.css';
 import Cookies from 'js-cookie';
-import { getAccessToken } from '../lib/auth';
+import { getAccessToken } from '@/lib/auth';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -19,7 +19,7 @@ const BlogPost = () => {
 
     const reqBody = {title: title, description: description,content: content, id_author: 1};
 
-    const response = await fetch('http://localhost:8080/blogPost/blogPost', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -1,10 +1,10 @@
 import React from 'react'
-import '../css/blogPostFeed.css';
+import '@/css/blogPostFeed.css';
 import Link from 'next/link';
 
 const BlogPostFeed = async() => {
 
-  const res = await fetch('http://localhost:8080/blogPost/blogPost',
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost`,
     {next: {revalidate: 10}});
   const blogPosts = await res.json();
 

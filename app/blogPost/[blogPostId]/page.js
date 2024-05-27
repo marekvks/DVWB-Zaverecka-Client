@@ -1,9 +1,9 @@
-import React from 'react'
-import '../../css/blogPost.css';
+import React from 'react';
+import '@/css/blogPost.css';
 
 export default async function BlogPostDetails({params}){
 
-    const res = await fetch('http://localhost:8080/blogPost/blogPost/' + params.blogPostId,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost/` + params.blogPostId,
     {next: {revalidate: 5}});
     const blogPost = await res.json();
 
