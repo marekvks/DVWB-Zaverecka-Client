@@ -9,7 +9,7 @@ import '../css/navbar.css';
 const userData = async () => {
     const accessToken = await getAccessToken(Cookies);
 
-    const response = await fetch('http://localhost:8080/user/getUser', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/getUser`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
