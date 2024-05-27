@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { login, register } from "../lib/auth.js";
 
-import '../css/auth.css';
+import styles from '@/css/auth.module.css';
 
 export default function Register() {
     const router = useRouter();
@@ -26,19 +26,19 @@ export default function Register() {
     }
 
     return (
-    <main>
-        <form onSubmit={registerUser}>
+    <main className={styles.main}>
+        <form className={styles.form} onSubmit={registerUser}>
             <h1>Register</h1>
-            <div className="input-container">
-                <div className="input">
+            <div className={styles.inputContainer}>
+                <div className={styles.input}>
                     <label htmlFor="username">username</label>
                     <input type="text" name="username" placeholder="username" />
                 </div>
-                <div className="input">
+                <div className={styles.input}>
                     <label htmlFor="email">email</label>
                     <input type="email" name="email" placeholder="example@example.com" />
                 </div>
-                <div className="input">
+                <div className={styles.input}>
                     <label htmlFor="password">password</label>
                     <input type="password" name="password" placeholder="password" />
                 </div>

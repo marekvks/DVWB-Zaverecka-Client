@@ -32,7 +32,7 @@ export const isLoggedIn = async (request, response) => {
 }
 
 const tryLoggedInEndpoint = async (accessToken) => {
-    const response = await fetch('http://localhost:8080/auth/authorized', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/authorized`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -43,12 +43,15 @@ const tryLoggedInEndpoint = async (accessToken) => {
 }
 
 const refreshAccessToken = async (refreshToken) => {
-    const response = await fetch('http://localhost:8080/auth/accessToken', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/accessToken`, {
         method: 'GET',
         headers: {
             'Cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly`
         }
     });
+
+    if (response.status != 200)
+        return null;
 
     const data = await response.json();
     const accessToken = data.accessToken;
@@ -65,7 +68,7 @@ export const getAccessToken = async (cookies) => {
     const accessTokenOk = await tryLoggedInEndpoint(accessToken);
 
     if (!accessTokenOk) {
-        const response = await fetch('http://localhost:8080/auth/accessToken', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/accessToken`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -83,7 +86,7 @@ export const getAccessToken = async (cookies) => {
 export const login = async (email, password) => {
     const reqBody = { email: email, password: password }
 
-    const response = await fetch('http://localhost:8080/auth/login', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -98,7 +101,7 @@ export const login = async (email, password) => {
 export const register = async (username, email, password) => {
     const reqBody = { username, email, password };
     
-    const response = await fetch('http://localhost:8080/auth/register', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -117,7 +120,7 @@ export const checkRefreshToken = async (request, response) => {
 
     refreshToken = refreshToken.value;
 
-    const res = await fetch('http://localhost:8080/auth/refreshToken', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/refreshToken`, {
         method: 'GET',
         headers: {
             'Cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly`

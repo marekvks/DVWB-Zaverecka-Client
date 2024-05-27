@@ -11,7 +11,7 @@ export default function UserData() {
         (async () => {
             const accessToken = await getAccessToken(Cookies);
 
-            const response = await fetch('http://localhost:8080/user/@me', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/@me`, {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`
                 }
@@ -33,7 +33,7 @@ export default function UserData() {
             username: document.getElementById('username').textContent
         };
     
-        const response = await fetch('http://localhost:8080/user/updateUser', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/updateUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,18 +1,25 @@
+'use client'
+import { useEffect } from 'react';
+
 import Navbar from "./components/navbar";
 import Image from "next/image";
 
 import './css/landing-page.css';
 
 export default function Home() {
+  useEffect(() => {
+    handleLogout();
+  }, []);
+
   const handleLogout = async () => {
-    const response = await fetch('http://localhost:8080/auth/logout', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`, {
         method: 'DELETE',
         credentials: 'include'
     });
   }
 
   const createBlogpost = async () => {
-    const response = await fetch('http://localhost:8080/auth/logout', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`, {
       method: 'GET',
       credentials: 'include'
     });
