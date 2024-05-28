@@ -1,0 +1,149 @@
+.content{
+    width: 100%;
+    height: 100%;
+    background: #161616;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 150px;
+}
+
+.navBarHolder{
+    width: 100%;
+    height: min-content;
+    position: fixed;
+    top: 0;
+    background: #161616;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBar{
+    width: 100%;
+    height: min-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navBar *{
+    margin: 15px;
+}
+
+.userNavBar{
+    display: flex;
+    align-items: center;
+}
+
+.userNavBar *{
+    margin-inline-start: 30px;
+}
+
+.searchBarDiv{
+    width: 600px;
+    display: flex;
+    border-radius: 28px;
+    background: #f6f6f6;
+}
+
+.searchBarDiv img{
+    width: 25px;
+    height: 25px;
+    align-self: center;
+    margin: 0px;
+}
+
+.searchBar{
+    font-size: 16px;
+    font-style: 'Lexend', sant-serif;
+    color: #333333;
+    margin-left: 14px;
+    outline: none;
+    border: none;
+    background: transparent;
+
+}
+
+.divider{
+    width: 90%;
+    height: 1px;
+    background-color: #00BA77;
+}
+
+.blogPost img{
+    max-width: 50%;
+    max-height: 50%;
+}
+
+.blogPostPreview{
+    width: 60vw;
+    max-width: 1000px;
+    height: fit-content;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color:#161616;
+    border-style: solid;
+    border-color: #00BA77;
+    border-width: 2px;
+    border-radius: 10px;
+    
+}
+
+.blogPostPreview img{
+    display: block;
+}
+
+.blogPostTitle{
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.blogPostContent{
+    display: flex;
+    justify-content: space-around;
+}
+.blogPostContent *{
+    margin-top: 30px;
+    margin-bottom: 70px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.blogPostContent p{
+    width: 45%;
+}
+
+.blogPostContent img{
+    border-radius: 30px;
+    max-width: 50%;
+}
+
+.userProfile{
+    display: flex;
+    max-width: 15vw;
+    min-width: 8vw;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #00BA77;
+    border-radius: 5px 0 10px 0;
+}
+
+.userProfile img{
+    align-self: center;
+}
+
+.userProfile p{
+    align-self: center;
+    text-align: center;
+    width: 100%;
+}
+
+.userProfilePicture{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}

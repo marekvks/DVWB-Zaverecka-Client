@@ -1,15 +1,15 @@
 'use client'
 
 import Cookies from 'js-cookie';
-import { getAccessToken } from '../lib/auth';
+import { getAccessToken, logout } from '@/lib/auth';
 import { useLayoutEffect, useState } from 'react';
 
-import '../css/navbar.css';
+import styles from '@/css/navbar.module.css';
 
 const userData = async () => {
     const accessToken = await getAccessToken(Cookies);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/getUser`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/@me`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
@@ -43,19 +43,22 @@ export default function Navbar() {
         })();
     }, []);
 
+    const handleLogout = async () => {
+        await logout();
+    }
 
     if (!user.username) {
         return (
-            <header>
-                <nav>
-                    <div className="scale-container">
-                        <span className="logo">BlogPost</span>
-                        <div className="links">
-                            <div className="default-links">
+            <header className={styles.header}>
+                <nav className={styles.nav}>
+                    <div className={styles.scaleContainer}>
+                        <span className={styles.logo}>BlogPost</span>
+                        <div className={styles.links}>
+                            <div className={styles.defaultLinks}>
                                 <a href="#">about</a>
                                 <a href="#">support</a>
                             </div>
-                            <a className="login-link" href="/login">Login</a>
+                            <a className={styles.loginLink} href="/login">Login</a>
                         </div>
                     </div>
                 </nav>
@@ -64,17 +67,24 @@ export default function Navbar() {
     }
 
     return (
-        <header>
-                <nav>
-                    <div className="scale-container">
-                        <span className="logo">BlogPost</span>
-                        <div className="links">
-                            <div className="default-links">
+        <header className={styles.header}>
+                <nav className={styles.nav}>
+                    <div className={styles.scaleContainer}>
+                        <span className={styles.logo}>BlogPost</span>
+                        <div className={styles.links}>
+                            <div className={styles.defaultLinks}>
                                 <a href="#">about</a>
                                 <a href="#">support</a>
                             </div>
-                            <div className="user-data">
-                                <a className="username" href="/userData">{user.username}</a>
+                            <div className={styles.userData}>
+                                <div className={styles.dropdown}>
+                                    <a className={styles.username}>{user.username}</a>
+                                    <div className={styles.dropdownContent}>
+                                        <a className="normal-link" href="/userData">Edit profile</a>
+                                        <a className="normal-link" href="/blogPostEditor">Create post</a>
+                                        <button onClick={handleLogout}>Logout</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
