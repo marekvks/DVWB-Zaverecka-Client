@@ -95,7 +95,9 @@ export const login = async (email, password) => {
         body: JSON.stringify(reqBody)
     });
 
-    return response.status === 200;
+    const data = await response.json();
+
+    return { "loggedIn": response.status === 200, "data": data || null };
 }
 
 export const register = async (username, email, password) => {
@@ -110,7 +112,19 @@ export const register = async (username, email, password) => {
         body: JSON.stringify(reqBody)
     });
 
-    return response.status === 201;
+    // error
+    const data = await response.json();
+
+    return {"registered": response.status === 201, "data": data || null };
+}
+
+export const logout = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`, {
+        method: 'DELETE',
+        credentials: 'include'
+    });
+
+    return response.status === 204;
 }
 
 export const checkRefreshToken = async (request, response) => {
@@ -127,6 +141,7 @@ export const checkRefreshToken = async (request, response) => {
         }
     });
 
+    // error
     const data = await res.json();
     if (data.refreshToken) {
         response.cookies.set('refreshToken', data.refreshToken, { httpOnly: true, secure: false });

@@ -11,6 +11,8 @@ export async function middleware(request) {
   if (request.nextUrl.pathname.endsWith('/page.js')) {
     // check refresh token
     await checkRefreshToken(request, response);
+  
+    if (request.nextUrl.pathname.includes('/user/')) {}
   }
   // API request
   else if (request.nextUrl.pathname.startsWith('/api')) {

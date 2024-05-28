@@ -133,6 +133,7 @@
   transition: transform 0.3s;
 }
 .Toastify__toast--stacked[data-collapsed] .Toastify__toast-body, .Toastify__toast--stacked[data-collapsed] .Toastify__close-button {
+  width: 10px!important;
   transition: opacity 0.1s;
 }
 .Toastify__toast--stacked[data-collapsed=false] {

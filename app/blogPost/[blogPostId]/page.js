@@ -1,11 +1,17 @@
-import React from 'react';
+'use client'
+
+import React, { useEffect, useState } from 'react';
 import '@/css/blogPost.css';
 
-export default async function BlogPostDetails({params}){
+export default function BlogPostDetails({params}){
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost/` + params.blogPostId,
-    {next: {revalidate: 5}});
-    const blogPost = await res.json();
+    const [blogPost, setBlogPost] = useState({});
+
+    useEffect(async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPostTitle/` + params.blogPostId, {next: {revalidate: 5}});
+        const blogPost = await res.json();
+        setBlogPost(blogPost[0]);
+    }, []);
 
     return(
         <div className='blogPost'>
