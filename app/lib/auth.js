@@ -112,10 +112,18 @@ export const register = async (username, email, password) => {
         body: JSON.stringify(reqBody)
     });
 
-    // error
-    const data = await response.json();
+    if (response.body) {
+        try {
+            const data = await response.json();
+            return {"registered": response.status === 201, "data": data };
+        }
+        catch (error)
+        {
+            console.log(error);
+        }
+    }
 
-    return {"registered": response.status === 201, "data": data || null };
+    return {"registered": response.status === 201, "data": null };
 }
 
 export const logout = async () => {
