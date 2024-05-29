@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "../lib/auth";
+import { login } from "@/lib/auth";
 
 import { Slide, toast } from "react-toastify";
 
@@ -48,7 +48,7 @@ export default function Login() {
 
         if (response.status === 200) {
             setCode(code);
-            event.target.email.value = '';
+            event.target.code.value = '';
         }
         else {
             const data = await response.json();
