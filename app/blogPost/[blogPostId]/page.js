@@ -46,7 +46,7 @@ export default function BlogPostDetails({params}){
 
         setMe(data);
     }
-    
+
       useEffect(() => {
         (async () => {
           await getBlogPost();

@@ -121,23 +121,25 @@ export default function UserPage({params}) {
                 transition: Slide
             });
 
-            const loggedIn = await login(me.email, currentPassword);
-            if (loggedIn) {
-                router.push('/');
+            const loginInfo = await login(me.email, newPassword);
+            if (loginInfo.loggedIn) {
+                window.location.reload();
             }
         }
         else {
-            if (!response.bodyUsed)
-                return;
-
-            const data = await response.json();
-
-            toast.error(data.message, {
-                position: "top-center",
-                hideProgressBar: true,
-                theme: "dark",
-                transition: Slide
-            });
+            try {
+                const data = await response.json();
+    
+                toast.error(data.message, {
+                    position: "top-center",
+                    hideProgressBar: true,
+                    theme: "dark",
+                    transition: Slide
+                });
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
     }
 

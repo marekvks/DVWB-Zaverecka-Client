@@ -2,7 +2,7 @@
 
 import Cookies from 'js-cookie';
 import { getAccessToken, logout } from '@/lib/auth';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from '@/css/navbar.module.css';
 
@@ -29,7 +29,7 @@ const userData = async () => {
 export default function Navbar() {
     const [user, setUser] = useState({});
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         (async () => {
             const data = await userData();
             if (!data)

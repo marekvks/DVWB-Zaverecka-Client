@@ -1,10 +1,9 @@
 'use client'
 
 import React from 'react'
-import '@/css/blogPostFeed.css';
-import Link from 'next/link';
 
 import { useState, useEffect } from "react";
+import BlogPostCard from '@/components/blogpostCard';
 
 const BlogPostFeed = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -20,53 +19,13 @@ const BlogPostFeed = () => {
   }, []);
 
   return (
-  <div className='content'>
-
-    <div className='navBarHolder'> 
-      <div className='navBar'>
-
-        <div>
-          <h1>Blogposts feed</h1>
-        </div>
-
-        <form className='searchBarDiv'>
-          <img src='/search_icon.jpeg'></img>
-          <input className='searchBar' id='search' name='Search' type='text' placeholder='Search'></input>
-        </form>
-
-        <div className='userNavBar'>
-          <Link href=''>Home</Link>
-          <Link href=''>Suport</Link>
-          <img src='/raccoon-dance.gif' className='userProfilePicture'></img>
-          <p className='username'>marekvks</p>
-        </div>
-
-      </div>
-      <div className='divider'></div>
-    </div>
-
-    {blogPosts.map(blogpost => 
-        <Link href={'/blogPost/' + blogpost.id_blogpost}>
-        <div className='blogPostPreview'>
-
-          <div className='blogPostTitle'> 
-            <div className='userProfile'>
-              <img src='/raccoon-dance.gif' className='userProfilePicture'></img>
-              <p className='username'>{blogpost.id_author}</p>
-            </div>
-
-            <h2>{blogpost.title}</h2>
-            <p>{blogpost.date}</p>
-          </div>
-    
-          <div className='blogPostContent'>
-            <p>{blogpost.description}</p>
-            <img src='/diner.jpg' alt="404"></img>
-          </div>
-        </div>
-        </Link>
-        )}       
-   </div>
+  <main className="flex flex-row justify-center w-full min-h-screen">
+    <section className="flex flex-col align-center w-5/12 gap-6 mt-10 mb-10">
+    {blogPosts.map((blogpost, index) =>
+      <BlogPostCard key={index} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["none", "none", "none"]} />
+    )}
+      </section>
+   </main>
   )
 }
 
