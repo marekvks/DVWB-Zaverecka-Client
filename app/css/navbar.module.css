@@ -1,6 +1,4 @@
-@import './root.css';
-
-header {
+.header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +7,7 @@ header {
     height: var(--navbar-height);
 }
 
-nav {
+.nav {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,12 +18,12 @@ nav {
     border-bottom: 1px solid var(--grey);
 }
 
-nav .logo {
+.nav .logo {
     font-size: 32px;
     font-weight: 500;
 }
 
-.scale-container {
+.scaleContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,14 +38,14 @@ nav .logo {
     align-items: center;
 }
 
-.default-links {
+.defaultLinks {
     display: flex;
     gap: 50px;
 
     margin-right: 150px;
 }
 
-.default-links > a {
+.defaultLinks > a {
     font-size: 24px;
 
     gap: 40px;
@@ -57,11 +55,11 @@ nav .logo {
     transition: color 0.2s ease;
 }
 
-.default-links > a:hover {
+.defaultLinks > a:hover {
     color: var(--white);
 }
 
-.login-link {
+.loginLink {
     font-size: 24px;
     
     padding: 10px 30px;
@@ -75,12 +73,12 @@ nav .logo {
     transition: 0.2s ease;
 }
 
-.login-link:hover {
+.loginLink:hover {
     background-color: var(--black-background);
     color: var(--green-bright);
 }
 
-.user-data > .username {
+.userData > .username {
     font-size: 24px;
 
     color: var(--green-bright);
@@ -88,6 +86,36 @@ nav .logo {
     transition: color 0.2s ease;
 }
 
-.user-data > .username:hover {
+.userData > .username:hover {
     color: var(--green-link-hover);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: var(--black-background);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 15px 20px;
+    z-index: 1;
+
+    border: 1px solid var(--green-bright);
+    border-radius: var(--window-radius);
+}
+
+.dropdown:hover .dropdownContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }

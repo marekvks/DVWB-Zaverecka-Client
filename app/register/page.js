@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { login, register } from "../lib/auth.js";
 
+import { Slide, toast } from "react-toastify";
 import styles from '@/css/auth.module.css';
 
 export default function Register() {
@@ -15,14 +16,29 @@ export default function Register() {
         const email = event.target.email.value;
         const password = event.target.password.value;
 
-        const registered = await register(username, email, password);
+        const registerInfo = await register(username, email, password);
     
-        if (!registered)
+        if (!registerInfo.registered) {
+            toast.error(registerInfo.data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
             return;
+        }
 
-        const loggedIn = await login(email, password);
-        if (loggedIn)
+        const loginInfo = await login(email, password);
+        if (loginInfo.loggedIn)
             router.push('/');
+        else {
+            toast.error(loginInfo.data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+        }
     }
 
     return (
@@ -43,6 +59,7 @@ export default function Register() {
                     <input type="password" name="password" placeholder="password" />
                 </div>
             </div>
+            <span>Already have an account? Log-in <a href="/login" className="normal-link">here</a>.</span>
             <button type="submit">Register</button>
         </form>
     </main>

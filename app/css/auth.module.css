@@ -9,9 +9,9 @@
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
 
     width: 480px;
     height: 640px;
@@ -21,14 +21,23 @@
 }
 
 .form > h1 {
+    margin-bottom: auto;
+    margin-top: 80px; 
+
     font-size: 64px;
     font-weight: 500;
+}
+
+.form > .longTitle {
+    font-size: 50px;
 }
 
 .inputContainer {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    margin-bottom: 60px;
 }
 
 .inputContainer > .input {
@@ -51,8 +60,12 @@
 }
 
 .form > button {
-    width: 206px;
+    min-width: 206px;
     height: 42px;
+
+    margin-top: auto;
+    margin-bottom: 50px;
+    padding: 0 20px;
 
     font-size: 24px;
     font-weight: 300;

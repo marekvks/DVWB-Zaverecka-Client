@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { login } from "../lib/auth";
 
+import { Slide, toast } from "react-toastify";
 import styles from '@/css/auth.module.css';
 
 export default function Login() {
@@ -14,9 +15,17 @@ export default function Login() {
         const email = event.target.email.value;
         const password = event.target.password.value;
     
-        const loggedIn = await login(email, password);
+        const { loggedIn, data } = await login(email, password);
         if (loggedIn)
             router.push('/');
+        else {
+            toast.error(data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+        }
     }
 
     return (
@@ -33,8 +42,8 @@ export default function Login() {
                         <input type="password" name="password" placeholder="password" />
                     </div>
                 </div>
-                <a href="/forgot-password">Forgot password?</a>
-                <span>Don't have an account? Register <a href="/register">here</a>.</span>
+                <a href="/forgot-password" className="normal-link">Forgot password?</a>
+                <span>Don't have an account? Register <a href="/register" className="normal-link">here</a>.</span>
                 <button type="submit">Login</button>
             </form>
         </main>

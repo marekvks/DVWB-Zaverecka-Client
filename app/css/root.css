@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Reset */
 @import url('./normalize.css');
 
@@ -27,6 +31,11 @@
 
 .normal-link {
     text-decoration: underline;
+    transition: all 0.2s ease;
+}
+
+.normal-link:hover {
+    color: var(--green-link-hover);
 }
 
 body {
@@ -40,9 +49,6 @@ button, input, select {
     background-color: var(--black-background);
     border-radius: var(--input-radius);
 
-    min-width: 200px;
-    min-height: 25px;
-
     padding: 5px var(--input-placeholder-offset);
     background-color: transparent;
 
@@ -50,7 +56,6 @@ button, input, select {
 }
 
 button {
-    min-width: 120px;
     border-color: var(--green-bright);
     cursor: pointer;
 }

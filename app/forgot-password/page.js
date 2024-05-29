@@ -6,6 +6,8 @@ import { login } from "../lib/auth";
 
 import { Slide, toast } from "react-toastify";
 
+import styles from '@/css/auth.module.css';
+
 export default function Login() {
     const router = useRouter();
 
@@ -26,13 +28,8 @@ export default function Login() {
         });
 
         if (response.status === 200) {
-            toast.success('Email sent', {
-                position: "top-center",
-                hideProgressBar: true,
-                theme: "dark",
-                transition: Slide
-            });
             setEmail(email);
+            event.target.email.value = '';
         }
     }
 
@@ -51,6 +48,16 @@ export default function Login() {
 
         if (response.status === 200) {
             setCode(code);
+            event.target.email.value = '';
+        }
+        else {
+            const data = await response.json();
+            toast.error(data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
         }
     }
 
@@ -61,7 +68,12 @@ export default function Login() {
         const confirmPassword = event.target.confirmPassword.value;
 
         if (password !== confirmPassword) {
-            alert('Passwords do not match.'); // replace with toaster
+            toast.error('passwords don\'t match.', {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
             return;
         }
 
@@ -74,23 +86,44 @@ export default function Login() {
         });
 
         if (response.status === 204) {
-            alert('Password changed!'); // replace with toaster
-            const loggedIn = await login(email, password);
+            toast.success('password changed.', {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
 
-            if (loggedIn)
+            const loggedIn = await login(email, password);
+            if (loggedIn) {
                 router.push('/');
+            }
+        }
+        else {
+            const data = await response.json();
+            toast.error(data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
         }
     }
 
     if (code && code != '') {
         return (
-            <main>
-                <form onSubmit={changePassword}>
-                    <h1>Enter a new password</h1>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" />
-                    <label for="confirmnPassword">Confirm password</label>
-                    <input type="password" name="confirmPassword" />
+            <main className={styles.main}>
+                <form className={styles.form} onSubmit={changePassword}>
+                    <h1 className={styles.longTitle}>New password</h1>
+                    <div className={styles.inputContainer}>
+                        <div className={styles.input}>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" placeholder="password" />
+                        </div>
+                        <div className={styles.input}>
+                            <label for="confirmnPassword">Confirm password</label>
+                            <input type="password" name="confirmPassword" placeholder="password" />
+                        </div>
+                    </div>
                     <button type="submit">Change password</button>
                 </form>
             </main>
@@ -98,20 +131,30 @@ export default function Login() {
     }
     if (email && email != '') {
         return (
-            <main>
-                <form onSubmit={verifyCode}>
-                    <h1>Enter your code</h1>
-                    <input type="text" name="code" />
+            <main className={styles.main}>
+                <form className={styles.form} onSubmit={verifyCode}>
+                    <h1 className={styles.longTitle}>Enter your code</h1>
+                    <div className={styles.inputContainer}>
+                        <div className={styles.input}>
+                            <label for="code">Code</label>
+                            <input type="text" name="code" placeholder="123456" />
+                        </div>
+                    </div>
                     <button type="submit">Send code</button>
                 </form>
             </main>
         );
     }
     return (
-        <main>
-            <form onSubmit={sendCodeViaEmail}>
-                <h1>Forgot password</h1>
-                <input type="email" name="email" />
+        <main className={styles.main}>
+            <form className={styles.form} onSubmit={sendCodeViaEmail}>
+                <h1 className={styles.longTitle}>Forgot password</h1>
+                <div className={styles.inputContainer}>
+                    <div className={styles.input}>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" placeholder="example@example.com" />
+                    </div>
+                </div>
                 <button type="submit">Send email</button>
             </form>
         </main>
