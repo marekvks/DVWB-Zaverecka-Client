@@ -1,12 +1,23 @@
+'use client'
+
 import React from 'react'
 import '@/css/blogPostFeed.css';
 import Link from 'next/link';
 
-const BlogPostFeed = async() => {
+import { useState, useEffect } from "react";
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost`,
-    {next: {revalidate: 10}});
-  const blogPosts = await res.json();
+const BlogPostFeed = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost`, {
+        next: {revalidate: 10}
+      });
+      const blogPosts = await res.json();
+      setBlogPosts(blogPosts);
+    })();
+  }, []);
 
   return (
   <div className='content'>
