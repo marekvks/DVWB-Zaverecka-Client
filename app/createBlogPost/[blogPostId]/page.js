@@ -21,8 +21,8 @@ export default function BlogPost({params}){
     const blogRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/` + params.blogPostId);
 
     const blogPost = await blogRes.json();
-    blogPostAuthorId = blogPost[0].id_author;
-    setBlogPost(blogPost[0]);
+    blogPostAuthorId = blogPost.id_author;
+    setBlogPost(blogPost);
   }
 
   const getMe = async () => {
