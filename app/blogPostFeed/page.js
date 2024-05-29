@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const BlogPostFeed = async() => {
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost`,
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/`,
     {next: {revalidate: 10}});
   const blogPosts = await res.json();
 

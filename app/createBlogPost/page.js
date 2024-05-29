@@ -20,7 +20,7 @@ const BlogPost = () => {
 
     const reqBody = {title: title, description: description,content: content, id_author: 1};
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
