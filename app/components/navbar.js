@@ -3,6 +3,7 @@
 import Cookies from 'js-cookie';
 import { getAccessToken, logout } from '@/lib/auth';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 import styles from '@/css/navbar.module.css';
 
@@ -28,6 +29,7 @@ const userData = async () => {
 
 export default function Navbar() {
     const [user, setUser] = useState({});
+    const [img, setImg] = useState();
 
     useEffect(() => {
         (async () => {
@@ -36,10 +38,24 @@ export default function Navbar() {
                 return;
 
             const currentUser = {
-                username: data.username
+                username: data.username,
+                id: data.id_user
             }
 
-            setUser(currentUser)
+            setUser(currentUser);
+
+            const accessToken = await getAccessToken(Cookies);
+
+            const pfp = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/@me/avatar`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            const img = await pfp.blob();
+            const imgSrc = URL.createObjectURL(img);
+            setImg(imgSrc);
         })();
     }, []);
 
@@ -77,11 +93,12 @@ export default function Navbar() {
                                 <a href="#">support</a>
                             </div>
                             <div className={styles.userData}>
+                                <Image src={img} width="40" height="40" className="rounded-full"></Image>
                                 <div className={styles.dropdown}>
                                     <a className={styles.username}>{user.username}</a>
                                     <div className={styles.dropdownContent}>
-                                        <a className="normal-link" href="/userData">Edit profile</a>
-                                        <a className="normal-link" href="/blogPostEditor">Create post</a>
+                                        <a className="normal-link" href={`/user/${user.username}`}>Edit profile</a>
+                                        <a className="normal-link" href="/createBlogPost">Create post</a>
                                         <button onClick={handleLogout}>Logout</button>
                                     </div>
                                 </div>
