@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default async function BlogPostDetails({params}){
 
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/blogPost/` + params.blogPostId,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/` + params.blogPostId,
     {next: {revalidate: 5}});
     const blogPost = await res.json();
 
@@ -25,7 +25,7 @@ export default async function BlogPostDetails({params}){
             <p className='description'>{blogPost[0].description}</p>
             <div dangerouslySetInnerHTML={{ __html: htmlOutput }} />
             <img src='/raccoon-dance.gif' alt="404"></img>
-            <Link href={'/blogPostEditor/' + blogPost[0].id_blogpost}>
+            <Link href={'/createBlogPost/' + blogPost[0].id_blogpost}>
             <p>Edit BlogPost</p>
             </Link>
         </div>
