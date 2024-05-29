@@ -8,6 +8,7 @@
 :root {
     --black-background: #161616;
     --grey: #464646;
+    --dark-grey: #222222;
     --grey-text: #C9C9C9;
     --white: #fff;
     --green-bright: #00EB96;
@@ -30,7 +31,6 @@
 }
 
 .normal-link {
-    text-decoration: underline;
     transition: all 0.2s ease;
 }
 
