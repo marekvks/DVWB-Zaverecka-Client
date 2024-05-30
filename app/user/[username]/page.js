@@ -262,7 +262,7 @@ export default function UserPage({params}) {
                     }
                 </div>
                 <div className="basis-3/4 flex flex-col align-center my-16 gap-8">
-                    {blogposts.map((blogpost, index) =>
+                    {blogposts == typeof(Array) && blogposts.map((blogpost, index) =>
                         <BlogPostCard key={index} userPage={true} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["tag1", "tag2", "tag3"]} />
                     )}
                 </div>
