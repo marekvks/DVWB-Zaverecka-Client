@@ -4,7 +4,9 @@ import Cookies from 'js-cookie';
 import { getAccessToken } from '@/lib/auth';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
+import Navbar from '@/components/navbar';
 
 import { login } from '@/lib/auth';
 
@@ -41,6 +43,8 @@ export default function UserPage({params}) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogpost/user/${userId}`, {
             method: 'GET'
         });
+
+        if (!response.status === 200) return;
 
         const blogposts = await response.json();
         setBlogposts(blogposts);
@@ -222,50 +226,53 @@ export default function UserPage({params}) {
     }
 
     return (
-        <main className="flex justify-center">
-            <section className="w-1/2 min-h-screen flex flex-row">
-                <div className="basis-1/4 w-1/4 self-start mt-52 h-screen">
-                    <div className="w-full h-0 relative" style={{ paddingBottom: '100%'}}>
-                        <Image src={userAvatar} alt="pfp" width="500" height="500" className="object-cover absolute w-full h-full rounded-full border-2 border-solid border-greenBright" />
+        <main>
+            <Navbar />
+            <section className="flex justify-center">
+                <section className="w-1/2 min-h-screen flex flex-row">
+                    <div className="basis-1/4 w-1/4 self-start mt-52 h-screen">
+                        <div className="w-full h-0 relative" style={{ paddingBottom: '100%'}}>
+                            <Image src={userAvatar} alt="pfp" width="500" height="500" className="object-cover absolute w-full h-full rounded-full border-2 border-solid border-greenBright" />
+                        </div>
+                        {editProfile &&
+                            <>
+                                <form onSubmit={handleUpdateMe} className="mt-10 flex flex-col gap-2 max-w-full">
+                                    <input type="text" placeholder="first name" name="firstName" defaultValue={user.firstName} />
+                                    <input type="text" placeholder="last name" name="lastName" defaultValue={user.lastName} />
+                                    <input type="text" placeholder="username" name="username" defaultValue={user.username} />
+                                    <input type="email" placeholder="example@example.com" name="email" defaultValue={user.email} />
+                                    <div className="flex flex-col gap-2 mt-10">
+                                        <input type="file" name="avatar" accept="image/*" onChange={onFileChange} className="bg-transparent" />
+                                        <button onClick={uploadFile} type="button">Upload avatar</button>
+                                    </div>
+                                    <input type="password" placeholder="current password" name="currentPassword" onChange={changePassword} className="mt-5" />
+                                    <input type="password" placeholder="new password" name="password" onChange={changeNewPassword} />
+                                    <input type="password" placeholder="confirm password" name="confirmPassword" onChange={changeConfirmPassword} />
+                                    <div className="flex flex-row flex-wrap justify-between mt-10 gap-1">
+                                        <button className="w-full" onClick={handleUpdatePasword}>Change password</button>
+                                        <button className="w-6/12" type="submit" name="save">Save</button>
+                                        <button className="w-5/12 border-greenDark" onClick={() => setEditProfile(false)}>Close</button>
+                                    </div>
+                                </form>
+                            </>
+                        }
+                        {!editProfile &&
+                            <>
+                                <h1 className="mt-10">{user.firstName} {user.lastName}</h1>
+                                <h2>{user.username}</h2>
+                                <h3>{user.email}</h3>
+                                {me.id_user === user.id_user &&
+                                    <button className="w-full mt-10" onClick={() => setEditProfile(true)}>Edit</button>
+                                }
+                            </>
+                        }
                     </div>
-                    {editProfile &&
-                        <>
-                            <form onSubmit={handleUpdateMe} className="mt-10 flex flex-col gap-2 max-w-full">
-                                <input type="text" placeholder="first name" name="firstName" defaultValue={user.firstName} />
-                                <input type="text" placeholder="last name" name="lastName" defaultValue={user.lastName} />
-                                <input type="text" placeholder="username" name="username" defaultValue={user.username} />
-                                <input type="email" placeholder="example@example.com" name="email" defaultValue={user.email} />
-                                <div className="flex flex-col gap-2 mt-10">
-                                    <input type="file" name="avatar" accept="image/*" onChange={onFileChange} className="bg-transparent" />
-                                    <button onClick={uploadFile} type="button">Upload avatar</button>
-                                </div>
-                                <input type="password" placeholder="current password" name="currentPassword" onChange={changePassword} className="mt-5" />
-                                <input type="password" placeholder="new password" name="password" onChange={changeNewPassword} />
-                                <input type="password" placeholder="confirm password" name="confirmPassword" onChange={changeConfirmPassword} />
-                                <div className="flex flex-row flex-wrap justify-between mt-10 gap-1">
-                                    <button className="w-full" onClick={handleUpdatePasword}>Change password</button>
-                                    <button className="w-6/12" type="submit" name="save">Save</button>
-                                    <button className="w-5/12 border-greenDark" onClick={() => setEditProfile(false)}>Close</button>
-                                </div>
-                            </form>
-                        </>
-                    }
-                    {!editProfile &&
-                        <>
-                            <h1 className="mt-10">{user.firstName} {user.lastName}</h1>
-                            <h2>{user.username}</h2>
-                            <h3>{user.email}</h3>
-                            {me.id_user === user.id_user &&
-                                <button className="w-full mt-10" onClick={() => setEditProfile(true)}>Edit</button>
-                            }
-                        </>
-                    }
-                </div>
-                <div className="basis-3/4 flex flex-col align-center my-16 gap-8">
-                    {blogposts == typeof(Array) && blogposts.map((blogpost, index) =>
-                        <BlogPostCard key={index} userPage={true} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["tag1", "tag2", "tag3"]} />
-                    )}
-                </div>
+                    <div className="basis-3/4 flex flex-col align-center my-16 gap-8">
+                        {blogposts.map((blogpost, index) =>
+                            <BlogPostCard key={index} userPage={true} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["tag1", "tag2", "tag3"]} />
+                        )}
+                    </div>
+                </section>
             </section>
         </main>
     )

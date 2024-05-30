@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { isLoggedIn, checkRefreshToken } from './app/lib/auth';
 
 const routesRedirectedToHomePage = ['/login', '/register', '/forgot-password'];
-const routesRedirectedToLogin = ['/userData', '/blogpost'];
+const routesRedirectedToLogin = ['/userData', '/createBlogPost'];
 
 export async function middleware(request) {
   let response = NextResponse.next();

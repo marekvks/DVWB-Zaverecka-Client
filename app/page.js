@@ -13,7 +13,7 @@ export default function Home() {
           <p className="description">Short description about this blogpost</p>
         </div>
         <div className="image-container">
-          <Image src="/raccoon-dance.gif" alt="404" width="300" height="300" />
+          <Image src="/raccoon-dance.gif" unoptimized alt="404" width="300" height="300" />
         </div>
       </section>
       <span className="horizontal-line"></span>

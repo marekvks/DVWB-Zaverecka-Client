@@ -27,7 +27,7 @@ const userData = async () => {
     return null;
 }
 
-export default function Navbar() {
+export default function Navbar({ search = false }) {
     const [user, setUser] = useState({});
     const [img, setImg] = useState();
 
@@ -63,46 +63,40 @@ export default function Navbar() {
         await logout();
     }
 
-    if (!user.username) {
-        return (
-            <header className={styles.header}>
-                <nav className={styles.nav}>
-                    <div className={styles.scaleContainer}>
-                        <span className={styles.logo}>BlogPost</span>
-                        <div className={styles.links}>
-                            <div className={styles.defaultLinks}>
-                                <a href="#">about</a>
-                                <a href="#">support</a>
-                            </div>
-                            <a className={styles.loginLink} href="/login">Login</a>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        );
-    }
-
     return (
-        <header className={styles.header}>
-                <nav className={styles.nav}>
-                    <div className={styles.scaleContainer}>
-                        <span className={styles.logo}>BlogPost</span>
-                        <div className={styles.links}>
-                            <div className={styles.defaultLinks}>
-                                <a href="#">about</a>
-                                <a href="#">support</a>
-                            </div>
-                            <div className={styles.userData}>
-                                <Image src={img} width="40" height="40" className="rounded-full"></Image>
-                                <div className={styles.dropdown}>
-                                    <a className={styles.username}>{user.username}</a>
-                                    <div className={styles.dropdownContent}>
-                                        <a className="normal-link" href={`/user/${user.username}`}>Edit profile</a>
-                                        <a className="normal-link" href="/createBlogPost">Create post</a>
-                                        <button onClick={handleLogout}>Logout</button>
+        <header className="flex justify-center w-full h-20">
+                <nav className="flex flex-row justify-center w-4/5 border-b border-solid border-grey">
+                    <div className="flex flex-row justify-between items-center w-10/12">
+                        <a href="/" className="text-3xl transition-all hover:text-greenBright">BlogPost</a>
+                        <div className="flex flex-row justify-center items-center w-8/12">
+                            {!search &&
+                                <div className="flex flex-row gap-20">
+                                    <a href="/about" className="text-2xl transition-all hover:text-greyText">about</a>
+                                    <a href="/support" className="text-2xl transition-all hover:text-greyText">support</a>
+                                </div>
+                            }
+                            {search &&
+                                <form className="flex flex-row items-center gap-0">
+                                    <input type="text" className="w-96 h-12 border border-r-0 border-solid rounded-l-lg rounded-r-none border-grey" />
+                                    <button className="w-28 h-12 text-white text-xl rounded-r-xl rounded-l-none hover:bg-greenDark transition-all">Search</button>
+                                </form>
+                            }
+                            {!user.username &&
+                                <a className={styles.loginLink} href="/login">Login</a>
+                            }
+                            {user.username &&
+                                <div className="flex flex-row items-center gap-4 ml-auto">
+                                    <Image src={img} width="40" height="40" className="rounded-full min-w-12 min-h-12 h-12 w-12 border border-solid border-greenBright" unoptimized />
+                                    <div className={styles.dropdown}>
+                                        <a className="text-xl">{user.username}</a>
+                                        <div className={styles.dropdownContent}>
+                                            <a className="normal-link" href={`/user/${user.username}`}>Edit profile</a>
+                                            <a className="normal-link" href="/createBlogPost">Create post</a>
+                                            <button onClick={handleLogout}>Logout</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </nav>
