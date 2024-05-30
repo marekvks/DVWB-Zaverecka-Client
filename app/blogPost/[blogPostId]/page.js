@@ -9,6 +9,7 @@ import { marked } from 'marked';
 import { getAccessToken } from '@/lib/auth';
 import Cookies from 'js-cookie';
 
+import { toast, Slide } from 'react-toastify';
 import Image from 'next/image';
 import Navbar from '@/components/navbar';
 
@@ -23,6 +24,19 @@ export default function BlogPostDetails({params}){
     const [author, setAuthor] = useState({});
     const [me, setMe] = useState({});
     const [avatar, setAvatar] = useState('');
+    const [comments, setComments] = useState([]);
+
+    const getComments = async (id_blogpost) => {
+        console.log(id_blogpost);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment/fromPost/${id_blogpost}`, {
+            method: 'GET'
+        });
+
+        if (response.status != 200) return;
+
+        const comments = await response.json();
+        setComments(comments);
+    }
 
     const getBlogPost = async () => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/` + params.blogPostId);
@@ -42,6 +56,8 @@ export default function BlogPostDetails({params}){
         await getAvatar(data.id_user);
 
         setAuthor(data);
+
+        await getComments(blogPost.id_blogpost);
       }
 
       const getAvatar = async (id) => {
@@ -70,13 +86,43 @@ export default function BlogPostDetails({params}){
         setMe(data);
     }
 
+    const postComment = async (event) => {
+        event.preventDefault();
 
-      useEffect(() => {
-        (async () => {
-          await getBlogPost();
-          await getMe();
-        })();
-      }, []);
+        const accessToken = await getAccessToken(Cookies);
+
+        const content = event.target.comment.value;
+
+        const reqBody = {
+            postId: blogPost.id_blogpost,
+            content: content
+        }
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment/add`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reqBody)
+        });
+
+        if (response.status === 201) {
+            toast.success('comment created.', {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+        }
+    }
+
+    useEffect(() => {
+    (async () => {
+        await getBlogPost();
+        await getMe();
+    })();
+    }, []);
 
     return(
         <main>
@@ -97,6 +143,20 @@ export default function BlogPostDetails({params}){
                     {me.id_user === blogPost.id_author &&
                         <a href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit blogpost</a>
                     }
+                    <section className="mt-20">
+                        <form onSubmit={postComment}>
+                            <label htmlFor="comment">Comment</label>
+                            <textarea name="comment" className="w-full h-28 border border-solid border-greenDark rounded-xl resize-none"></textarea>
+                            <button type="submit" className="mt-4 self-end border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Post comment</button>
+                        </form>
+                        <h1 className="text-3xl mt-16">Comments</h1>
+                        {comments.map((comment, index) => 
+                            <article key={index}>
+                                <span>{comment.id_author}</span>
+                                <p>{comment.content}</p>
+                            </article>
+                        )}
+                    </section>
                 </section>
             </section>
         </main>

@@ -82,8 +82,6 @@ export default function BlogPost({params}){
     const description = event.target.description.value;
     const content = event.target.content.value;
 
-    console.log(description);
-
     const accessToken = await getAccessToken(Cookies);
 
     const reqBody = { title: title, description: description, content: content };
