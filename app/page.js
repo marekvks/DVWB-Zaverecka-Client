@@ -14,7 +14,6 @@ export default function Home() {
         </div>
         <div className="image-container">
           <Image src="/raccoon-dance.gif" alt="404" width="300" height="300" />
-          <img src="http://localhost:8080/api/v1/user/id/1/avatar" width="500" height="500" />
         </div>
       </section>
       <span className="horizontal-line"></span>

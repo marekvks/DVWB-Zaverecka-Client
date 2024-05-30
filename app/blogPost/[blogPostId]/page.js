@@ -7,6 +7,8 @@ import { marked } from 'marked';
 import { getAccessToken } from '@/lib/auth';
 import Cookies from 'js-cookie';
 
+import Image from 'next/image';
+
 import styles from '@/css/github-markdown-dark.module.css';
 
 
@@ -16,6 +18,7 @@ export default function BlogPostDetails({params}){
     const [htmlOutput, setHtmlOutput] = useState('');
     const [author, setAuthor] = useState({});
     const [me, setMe] = useState({});
+    const [avatar, setAvatar] = useState('');
 
     const getBlogPost = async () => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/blogPost/` + params.blogPostId);
@@ -27,9 +30,20 @@ export default function BlogPostDetails({params}){
 
         const responseAuthor = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/id/` + blogPost.id_author);
         const data = await responseAuthor.json();
+        await getAvatar(data.id_user);
 
         setAuthor(data);
       }
+
+      const getAvatar = async (id) => {
+        const pfpResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/id/${id}/avatar`, {
+            method: 'GET'
+        });
+
+        const img = await pfpResponse.blob();
+        const imgSrc = URL.createObjectURL(img);
+        setAvatar(imgSrc);
+    }
 
     const getMe = async () => {
         const accessToken = await getAccessToken(Cookies);
@@ -47,6 +61,7 @@ export default function BlogPostDetails({params}){
         setMe(data);
     }
 
+
       useEffect(() => {
         (async () => {
           await getBlogPost();
@@ -60,8 +75,9 @@ export default function BlogPostDetails({params}){
                 <article className="mt-8 pb-8 border-b border-greenDark">
                     <h1 className="text-5xl">{blogPost.title}</h1>
                     <p className="text-justify text-xl mt-8">{blogPost.description}</p>
-                    <div className="mt-8">
-                        <a href={`/user/${author.username}`} className="text-right text-l normal-link">{author.username}</a>
+                    <div className="flex flex-row items-center gap-4 mt-8">
+                        <Image src={avatar} width="50" height="50" className="w-12 h-12 rounded-full border border-solid border-greenBright" />
+                        <a href={`/user/${author.username}`} className="text-right text-l normal-link text-xl">{author.username}</a>
                     </div>
                 </article>
                 <article className="mt-16">

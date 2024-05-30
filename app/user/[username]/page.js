@@ -43,7 +43,6 @@ export default function UserPage({params}) {
         });
 
         const blogposts = await response.json();
-        console.log(blogposts);
         setBlogposts(blogposts);
     }
 
@@ -175,14 +174,58 @@ export default function UserPage({params}) {
         setChangeAvatar(file);
     }
 
-    const onFileUpload = () => {
+    const uploadFile = async () => {
+        if (!changeAvatar) {
+            toast.error('select a file first.', {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+
+            return;
+        }
+
+        const accessToken = await getAccessToken(Cookies); 
+
+        const formData = new FormData();
+        formData.append('avatar', changeAvatar);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/@me/avatar`, {
+            method: 'PATCH',
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        const data = response.json();
+
+        if (response.status != 200) {
+            toast.error(data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+        }
+        else {
+            toast.success(data.message, {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+        }
     }
 
     return (
         <main className="flex justify-center">
             <section className="w-1/2 min-h-screen flex flex-row">
                 <div className="basis-1/4 w-1/4 self-start mt-52 h-screen">
-                    <Image src={userAvatar} alt="pfp" width="500" height="500" className="rounded-full border-2 border-solid border-greenBright" />
+                    <div className="w-full h-0 relative" style={{ paddingBottom: '100%'}}>
+                        <Image src={userAvatar} alt="pfp" width="500" height="500" className="object-cover absolute w-full h-full rounded-full border-2 border-solid border-greenBright" />
+                    </div>
                     {editProfile &&
                         <>
                             <form onSubmit={handleUpdateMe} className="mt-10 flex flex-col gap-2 max-w-full">
@@ -190,16 +233,16 @@ export default function UserPage({params}) {
                                 <input type="text" placeholder="last name" name="lastName" defaultValue={user.lastName} />
                                 <input type="text" placeholder="username" name="username" defaultValue={user.username} />
                                 <input type="email" placeholder="example@example.com" name="email" defaultValue={user.email} />
+                                <div className="flex flex-col gap-2 mt-10">
+                                    <input type="file" name="avatar" accept="image/*" onChange={onFileChange} className="bg-transparent" />
+                                    <button onClick={uploadFile} type="button">Upload avatar</button>
+                                </div>
                                 <input type="password" placeholder="current password" name="currentPassword" onChange={changePassword} className="mt-5" />
                                 <input type="password" placeholder="new password" name="password" onChange={changeNewPassword} />
                                 <input type="password" placeholder="confirm password" name="confirmPassword" onChange={changeConfirmPassword} />
-                                <div>
-                                    <input type="file" name="avatar" accept="image/*" />
-                                    <button>Upload</button>
-                                </div>
                                 <div className="flex flex-row flex-wrap justify-between mt-10 gap-1">
                                     <button className="w-full" onClick={handleUpdatePasword}>Change password</button>
-                                    <button className="w-6/12" type="submit">Save</button>
+                                    <button className="w-6/12" type="submit" name="save">Save</button>
                                     <button className="w-5/12 border-greenDark" onClick={() => setEditProfile(false)}>Close</button>
                                 </div>
                             </form>
@@ -218,7 +261,7 @@ export default function UserPage({params}) {
                 </div>
                 <div className="basis-3/4 flex flex-col align-center my-16 gap-8">
                     {blogposts.map((blogpost, index) =>
-                        <BlogPostCard key={index} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["tag1", "tag2", "tag3"]} />
+                        <BlogPostCard key={index} userPage={true} blogpostId={blogpost.id_blogpost} title={blogpost.title} description={blogpost.description} authorId={blogpost.id_author} initDate={blogpost.date} tags={["tag1", "tag2", "tag3"]} />
                     )}
                 </div>
             </section>
