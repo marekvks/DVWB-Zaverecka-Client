@@ -86,10 +86,12 @@ export default function UserPage({params}) {
         setMe(data);
     }
 
-    useEffect(async () => {
-        await getUser();
-        await getMe();
-        await getUserBlogposts();
+    useEffect(() => {
+        (async () => {
+            await getUser();
+            await getMe();
+            await getUserBlogposts();
+        })();
     }, []);
 
     const handleUpdateMe = async (event) => {
