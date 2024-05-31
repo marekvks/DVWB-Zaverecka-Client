@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function BlogPostCard({blogpostId, title, description, tags, authorId, initDate, userPage = false}) {
+export default function BlogPostCard({blogpostId, title, description, tags, authorId, initDate, userPage = false, likes}) {
     const [author, setAuthor] = useState({});
     const [date, setDate] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -65,6 +65,12 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
             <div className="w-11/12 h-full overflow-hidden">
                 <Link href={`/blogPost/${blogpostId}`} className="text-xl font-bold hover:text-greenBright transition-all">{title}</Link>
                 <p className="text-greyText text-elipsis max-h-11/12 overflow-hidden">{description}</p>
+                <div className="flex gap-2">
+                <button>
+                    <Image src='/hearth.png' width={20} height={20}></Image>
+                </button>
+                <p>{likes}</p>
+                </div>
             </div>
             <div className="self-end mr-8 mb-2">
                 <span>{date}</span>
