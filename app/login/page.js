@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { login } from "../lib/auth";
 
 import { Slide, toast } from "react-toastify";
+import Link from "next/link";
+
 import styles from '@/css/auth.module.css';
 
 export default function Login() {
@@ -42,8 +44,8 @@ export default function Login() {
                         <input type="password" name="password" placeholder="password" />
                     </div>
                 </div>
-                <a href="/forgot-password" className="normal-link">Forgot password?</a>
-                <span>Don't have an account? Register <a href="/register" className="normal-link">here</a>.</span>
+                <Link href="/forgot-password" className="normal-link">Forgot password?</Link>
+                <span>Don't have an account? Register <Link href="/register" className="normal-link">here</Link>.</span>
                 <button type="submit">Login</button>
             </form>
         </main>

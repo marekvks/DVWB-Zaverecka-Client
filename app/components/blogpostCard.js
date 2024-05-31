@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BlogPostCard({blogpostId, title, description, tags, authorId, initDate, userPage = false}) {
     const [author, setAuthor] = useState({});
@@ -52,7 +53,7 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
                     {!userPage &&
                         <div className="flex flex-row items-center justify-start self-center gap-2 h-full">
                             <Image src={avatar} alt="pfp" width="20" height="20" className="object-cover w-6 h-6 rounded-full border border-solid border-greenBright" />
-                            <a href={`/user/${author.username}`} className="text-greyText hover:text-greenBright transition-all align-center">{author.username}</a>
+                            <Link href={`/user/${author.username}`} className="text-greyText hover:text-greenBright transition-all align-center">{author.username}</Link>
                         </div>
                     }
                 <div className="min-h-8 flex flex-row gap-2 self-center">
@@ -62,7 +63,7 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
                 </div>
             </div>
             <div className="w-11/12 h-full overflow-hidden">
-                <a href={`/blogPost/${blogpostId}`} className="text-xl font-bold hover:text-greenBright transition-all">{title}</a>
+                <Link href={`/blogPost/${blogpostId}`} className="text-xl font-bold hover:text-greenBright transition-all">{title}</Link>
                 <p className="text-greyText text-elipsis max-h-11/12 overflow-hidden">{description}</p>
             </div>
             <div className="self-end mr-8 mb-2">

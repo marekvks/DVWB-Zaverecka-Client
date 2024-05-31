@@ -3,7 +3,9 @@
 import Cookies from 'js-cookie';
 import { getAccessToken, logout } from '@/lib/auth';
 import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
+import Link from "next/link";
 
 import styles from '@/css/navbar.module.css';
 
@@ -67,12 +69,12 @@ export default function Navbar({ search = false }) {
         <header className="flex justify-center w-full h-20">
                 <nav className="flex flex-row justify-center w-4/5 border-b border-solid border-grey">
                     <div className="flex flex-row justify-between items-center w-10/12">
-                        <a href="/" className="text-3xl transition-all hover:text-greenBright">BlogPost</a>
+                        <Link href="/" className="text-3xl transition-all hover:text-greenBright">BlogPost</Link>
                         <div className="flex flex-row justify-center items-center w-8/12">
                             {!search &&
                                 <div className="flex flex-row gap-20">
-                                    <a href="/about" className="text-2xl transition-all hover:text-greyText">about</a>
-                                    <a href="/support" className="text-2xl transition-all hover:text-greyText">support</a>
+                                    <Link href="/about" className="text-2xl transition-all hover:text-greyText">about</Link>
+                                    <Link href="/support" className="text-2xl transition-all hover:text-greyText">support</Link>
                                 </div>
                             }
                             {search &&
@@ -82,16 +84,16 @@ export default function Navbar({ search = false }) {
                                 </form>
                             }
                             {!user.username &&
-                                <a className={styles.loginLink} href="/login">Login</a>
+                                <Link className={styles.loginLink} href="/login">Login</Link>
                             }
                             {user.username &&
                                 <div className="flex flex-row items-center gap-4 ml-auto">
                                     <Image src={img} width="40" height="40" className="rounded-full min-w-12 min-h-12 h-12 w-12 border border-solid border-greenBright" unoptimized />
                                     <div className={styles.dropdown}>
-                                        <a className="text-xl">{user.username}</a>
+                                        <Link href={`/user/${user.username}`} className="text-xl">{user.username}</Link>
                                         <div className={styles.dropdownContent}>
-                                            <a className="normal-link" href={`/user/${user.username}`}>Edit profile</a>
-                                            <a className="normal-link" href="/createBlogPost">Create post</a>
+                                            <Link className="normal-link" href={`/user/${user.username}`}>Edit profile</Link>
+                                            <Link className="normal-link" href="/createBlogPost">Create post</Link>
                                             <button onClick={handleLogout}>Logout</button>
                                         </div>
                                     </div>

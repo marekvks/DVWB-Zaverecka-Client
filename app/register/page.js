@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { login, register } from "../lib/auth.js";
 
 import { Slide, toast } from "react-toastify";
+import Link from "next/link";
+
 import styles from '@/css/auth.module.css';
 
 export default function Register() {
@@ -59,7 +61,7 @@ export default function Register() {
                     <input type="password" name="password" placeholder="password" />
                 </div>
             </div>
-            <span>Already have an account? Log-in <a href="/login" className="normal-link">here</a>.</span>
+            <span>Already have an account? Log-in <Link href="/login" className="normal-link">here</Link>.</span>
             <button type="submit">Register</button>
         </form>
     </main>

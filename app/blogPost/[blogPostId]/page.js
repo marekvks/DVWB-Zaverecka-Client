@@ -11,6 +11,8 @@ import Cookies from 'js-cookie';
 
 import { toast, Slide } from 'react-toastify';
 import Image from 'next/image';
+import Link from "next/link";
+
 import Navbar from '@/components/navbar';
 
 import styles from '@/css/github-markdown-dark.module.css';
@@ -134,14 +136,14 @@ export default function BlogPostDetails({params}){
                         <p className="text-justify text-xl mt-8 text-greyText">{blogPost.description}</p>
                         <div className="flex flex-row items-center gap-4 mt-8">
                             <Image src={avatar} width="50" height="50" className="w-12 h-12 rounded-full border border-solid border-greenBright" />
-                            <a href={`/user/${author.username}`} className="text-right text-l normal-link text-xl">{author.username}</a>
+                            <Link href={`/user/${author.username}`} className="text-right text-l normal-link text-xl">{author.username}</Link>
                         </div>
                     </article>
                     <article className="mt-16">
                         <div dangerouslySetInnerHTML={{ __html: htmlOutput}} className={styles.markdownBody} />
                     </article>
                     {me.id_user === blogPost.id_author &&
-                        <a href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit blogpost</a>
+                        <Link href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit blogpost</Link>
                     }
                     <section className="mt-20">
                         <form onSubmit={postComment}>
