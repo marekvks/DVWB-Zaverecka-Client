@@ -47,6 +47,16 @@ export default function BlogPost() {
         transition: Slide
       });
     }
+
+    if (response.status === 401) {
+      toast.success('Cannot create blogpost due missing parts. Please fill necesary parts.', {
+        position: "top-center",
+        hideProgressBar: true,
+        theme: "dark",
+        transition: Slide
+      });
+    }
+    
   }
 
   const UpdateMarkdown = (event) => {
