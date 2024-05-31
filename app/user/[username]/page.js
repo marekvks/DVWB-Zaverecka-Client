@@ -26,11 +26,14 @@ export default function UserPage({params}) {
     const [me, setMe] = useState({ });
 
     let userId;
+    let currentUserId;
 
     const [blogposts, setBlogposts] = useState([]);
 
     const [userAvatar, setUserAvatar] = useState();
     const [changeAvatar, setChangeAvatar] = useState();
+
+    const [meFollowing, setMeFollowing] = useState(false);
 
     let currentPassword = '';
     let newPassword = '';
@@ -88,16 +91,10 @@ export default function UserPage({params}) {
 
         const data = await response.json();
 
+        currentUserId = data.id_user;
+
         setMe(data);
     }
-
-    useEffect(() => {
-        (async () => {
-            await getUser();
-            await getMe();
-            await getUserBlogposts();
-        })();
-    }, []);
 
     const handleUpdateMe = async (event) => {
         event.preventDefault();
@@ -231,6 +228,73 @@ export default function UserPage({params}) {
         }
     }
 
+    const getMeFollowing = async () => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/follow/${currentUserId}/following`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status != 200) return;
+        
+        const data = await response.json();
+        
+        const following = data.find(follow => follow.id_followed === userId);
+
+        if (!following) return;
+
+        setMeFollowing(true);
+    }
+
+    const followUser = async (userId) => {
+        const accessToken = await getAccessToken(Cookies);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/follow`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ followedId: userId })
+        });
+
+        if (response.status === 201) {
+            toast.success('user followed.', {
+                position: "top-center",
+                hideProgressBar: true,
+                theme: "dark",
+                transition: Slide
+            });
+
+            window.location.reload();
+        }
+    }
+
+    const unfollowUser = async (userId) => {
+        const accessToken = await getAccessToken(Cookies);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/follow/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.status != 204) return;
+
+        window.location.reload();
+    }
+
+    useEffect(() => {
+        (async () => {
+            await getUser();
+            await getMe();
+            await getUserBlogposts();
+            await getMeFollowing();
+        })();
+    }, []);
+
     return (
         <main>
             <Navbar />
@@ -267,8 +331,18 @@ export default function UserPage({params}) {
                                 <h1 className="mt-10">{user.firstName} {user.lastName}</h1>
                                 <h2>{user.username}</h2>
                                 <h3>{user.email}</h3>
+                                <div className="flex flex-row gap-4 mt-4">
+                                    <Link href={`/user/${user.username}/followers`} className="normal-link">Followers</Link>
+                                    <Link href={`/user/${user.username}/following`} className="normal-link">Following</Link>
+                                </div>
                                 {me.id_user === user.id_user &&
                                     <button className="w-full mt-10" onClick={() => setEditProfile(true)}>Edit</button>
+                                }
+                                {me.id_user != user.id_user && me && !meFollowing &&
+                                    <button className="w-full mt-10" onClick={() => followUser(user.id_user)}>Follow</button>
+                                }
+                                { me.id_user != user.id_user && me && meFollowing &&
+                                    <button className="w-full mt-10" onClick={() => unfollowUser(user.id_user)}>Unfollow</button>
                                 }
                             </>
                         }
