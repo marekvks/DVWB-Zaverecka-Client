@@ -31,7 +31,6 @@ export default function BlogPostDetails({params}){
     const [comments, setComments] = useState([]);
 
     const getComments = async (id_blogpost) => {
-        console.log(id_blogpost);
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment/fromPost/${id_blogpost}`, {
             method: 'GET'
         });
@@ -50,18 +49,18 @@ export default function BlogPostDetails({params}){
             return;
         }
 
-        const blogPost = await response.json();
-        setBlogPost(blogPost);
-        const parsedInput = marked.parse(blogPost.content);
+        const data = await response.json();
+        setBlogPost(data);
+        await getComments(params.blogPostId);
+
+        const parsedInput = marked.parse(data.content);
         setHtmlOutput(DOMPurify.sanitize(parsedInput));
 
-        const responseAuthor = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/id/` + blogPost.id_author);
-        const data = await responseAuthor.json();
-        await getAvatar(data.id_user);
+        const responseAuthor = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/id/` + data.id_author);
+        const avatarData = await responseAuthor.json();
+        await getAvatar(avatarData.id_user);
 
-        setAuthor(data);
-
-        await getComments(blogPost.id_blogpost);
+        setAuthor(avatarData);
       }
 
       const getAvatar = async (id) => {
