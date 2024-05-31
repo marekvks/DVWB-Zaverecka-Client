@@ -3,6 +3,7 @@
 import Cookies from 'js-cookie';
 import { getAccessToken, logout } from '@/lib/auth';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import Image from 'next/image';
 import Link from "next/link";
@@ -30,6 +31,8 @@ const userData = async () => {
 }
 
 export default function Navbar({ search = false }) {
+    const router = useRouter();
+
     const [user, setUser] = useState({});
     const [img, setImg] = useState();
 
@@ -62,7 +65,9 @@ export default function Navbar({ search = false }) {
     }, []);
 
     const handleLogout = async () => {
-        await logout();
+        const loggedOut = await logout();
+
+        window.location.reload();
     }
 
     return (
@@ -72,7 +77,7 @@ export default function Navbar({ search = false }) {
                         <Link href="/" className="text-3xl transition-all hover:text-greenBright">BlogPost</Link>
                         <div className="flex flex-row justify-center items-center w-8/12">
                             {!search &&
-                                <div className="flex flex-row gap-20">
+                                <div className="flex flex-row gap-20 ml-72">
                                     <Link href="/about" className="text-2xl transition-all hover:text-greyText">about</Link>
                                     <Link href="/support" className="text-2xl transition-all hover:text-greyText">support</Link>
                                 </div>
@@ -84,7 +89,7 @@ export default function Navbar({ search = false }) {
                                 </form>
                             }
                             {!user.username &&
-                                <Link className={styles.loginLink} href="/login">Login</Link>
+                                <Link className="ml-auto px-8 py-2 text-2xl border border-solid border-greenBright rounded-full text-greenBright transition-all hover:bg-greenBright hover:text-blackBackground" href="/login">Login</Link>
                             }
                             {user.username &&
                                 <div className="flex flex-row items-center gap-4 ml-auto">

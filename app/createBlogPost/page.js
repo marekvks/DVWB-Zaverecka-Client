@@ -78,8 +78,8 @@ export default function BlogPost() {
           <div className="flex flex-col w-full">
             <label htmlFor="editor">Content</label>
             <div className="flex flex-row w-full">
-              <textarea id="markdown-content" type="content" rows="35" cols="35" name="content" placeholder="Content" onChange={UpdateMarkdown} className="rounded-r-none resize-none h-3/6 w-1/2" style={{ maxHeight: '80vh' }}></textarea>
-                <div className="px-8 border border-solid border-l-0 border-greenDark w-1/2 h-46 overflow-y-scroll" style={{ borderTopRightRadius: '10px', borderBottomRightRadius: '10px', maxHeight: '80vh' }}>
+              <textarea id="markdown-content" type="content" rows="35" cols="35" name="content" placeholder="Content" onChange={UpdateMarkdown} className="rounded-r-none resize-none w-1/2" style={{ maxHeight: '80vh', height: '80vh' }}></textarea>
+                <div className="px-8 border border-solid border-l-0 border-greenDark w-1/2 h-46 overflow-y-scroll" style={{ borderTopRightRadius: '10px', borderBottomRightRadius: '10px', maxHeight: '80vh', height: '80vh' }}>
                   <div id="html-preview" className={styles.markdownBody} dangerouslySetInnerHTML={{ __html: preview }}></div>
                 </div>
             </div>

@@ -48,7 +48,7 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
     }, []);
 
     return(
-        <article className="self-center w-10/12 h-44 border border-solid border-greenDark flex flex-col items-center overflow-hidden">
+        <article className="self-center w-10/12 h-44 border border-solid border-greenDark flex flex-col items-center overflow-hidden rounded-lg">
             <div className="w-11/12 h-1/12 flex flex-row justify-between gap-2 mt-2">
                     {!userPage &&
                         <div className="flex flex-row items-center justify-start self-center gap-2 h-full">

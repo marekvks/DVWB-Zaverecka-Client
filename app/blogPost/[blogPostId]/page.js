@@ -14,6 +14,7 @@ import Image from 'next/image';
 import Link from "next/link";
 
 import Navbar from '@/components/navbar';
+import Comment from '@/components/comment';
 
 import styles from '@/css/github-markdown-dark.module.css';
 
@@ -25,6 +26,7 @@ export default function BlogPostDetails({params}){
     const [htmlOutput, setHtmlOutput] = useState('');
     const [author, setAuthor] = useState({});
     const [me, setMe] = useState({});
+    const [userAvatar, setUserAvatar] = useState('');
     const [avatar, setAvatar] = useState('');
     const [comments, setComments] = useState([]);
 
@@ -86,6 +88,20 @@ export default function BlogPostDetails({params}){
         const data = await response.json();
 
         setMe(data);
+        await getUserAvatar(accessToken);
+    }
+
+    const getUserAvatar = async (accessToken) => {
+        const pfpResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/@me/avatar`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        const img = await pfpResponse.blob();
+        const imgSrc = URL.createObjectURL(img);
+        setUserAvatar(imgSrc);
     }
 
     const postComment = async (event) => {
@@ -116,6 +132,8 @@ export default function BlogPostDetails({params}){
                 theme: "dark",
                 transition: Slide
             });
+
+            window.location.reload();
         }
     }
 
@@ -146,18 +164,21 @@ export default function BlogPostDetails({params}){
                         <Link href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit blogpost</Link>
                     }
                     <section className="mt-20">
-                        <form onSubmit={postComment}>
-                            <label htmlFor="comment">Comment</label>
-                            <textarea name="comment" className="w-full h-28 border border-solid border-greenDark rounded-xl resize-none"></textarea>
-                            <button type="submit" className="mt-4 self-end border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Post comment</button>
-                        </form>
+                        {me.id_user &&
+                            <div className="flex flex-row gap-4">
+                                <Image src={userAvatar} width="50" height="50" className="mt-2 min-w-12 min-h-12 w-12 h-12 rounded-full border border-solid border-greenBright" />
+                                <form onSubmit={postComment}>
+                                    <textarea name="comment" placeholder="say something" className="w-full h-28 border border-solid border-greenDark rounded-xl resize-none"></textarea>
+                                    <button type="submit" className="mt-4 self-end border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Post comment</button>
+                                </form>
+                            </div>
+                        }
                         <h1 className="text-3xl mt-16">Comments</h1>
-                        {comments.map((comment, index) => 
-                            <article key={index}>
-                                <span>{comment.id_author}</span>
-                                <p>{comment.content}</p>
-                            </article>
-                        )}
+                        <section className="flex flex-col gap-8 mt-8">
+                            {comments.map((comment, index) => 
+                                <Comment key={index} id_author={comment.id_author} content={comment.content} date={comment.date} />
+                            )}
+                        </section>
                     </section>
                 </section>
             </section>

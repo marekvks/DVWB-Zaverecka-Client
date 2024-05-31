@@ -45,7 +45,7 @@ export default function UserPage({params}) {
             method: 'GET'
         });
 
-        if (!response.status === 200) return;
+        if (response.status != 200) return;
 
         const blogposts = await response.json();
         setBlogposts(blogposts);
@@ -127,6 +127,11 @@ export default function UserPage({params}) {
                 theme: "dark",
                 transition: Slide
             });
+
+            if (username == params.username)
+                window.location.reload();
+            else
+                router.push(`/user/${username}`);
         }
     }
 
