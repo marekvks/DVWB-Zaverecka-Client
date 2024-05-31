@@ -70,6 +70,16 @@ export default function Navbar({ search = false }) {
         window.location.reload();
     }
 
+    const SearchByTitle = (e) => {
+        e.preventDefault()
+    
+        if(e.target.search.value != ""){
+          router.push("/blogPostSearch/" + e.target.search.value)
+        }else{
+          router.push("/blogPostFeed/")
+        }
+    }
+
     return (
         <header className="flex justify-center w-full h-20">
                 <nav className="flex flex-row justify-center w-4/5 border-b border-solid border-grey">
@@ -83,8 +93,8 @@ export default function Navbar({ search = false }) {
                                 </div>
                             }
                             {search &&
-                                <form className="flex flex-row items-center gap-0">
-                                    <input type="text" className="w-96 h-12 border border-r-0 border-solid rounded-l-lg rounded-r-none border-grey" />
+                                <form onSubmit={SearchByTitle} className="flex flex-row items-center gap-0">
+                                    <input name='search' type="text" className="w-96 h-12 border border-r-0 border-solid rounded-l-lg rounded-r-none border-grey" />
                                     <button className="w-28 h-12 text-white text-xl rounded-r-xl rounded-l-none hover:bg-greenDark transition-all">Search</button>
                                 </form>
                             }
