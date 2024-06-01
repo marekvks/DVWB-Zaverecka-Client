@@ -1,4 +1,4 @@
-# Jak spustit projektu
+# Jak na spuštění projektu
 1. Nejprve je potřeba si stáhnout jak sevrery (tento repozitář), tak clien. Odkaz naleznete zde [DVWB-Zaverecka-Server](https://github.com/marekvks/DVWB-Zaverecka-Server/tree/main).
 
 2. Po otevření je potřeba spustit v obou souborech příkaz:
