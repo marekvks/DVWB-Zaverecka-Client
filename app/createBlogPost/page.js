@@ -49,7 +49,7 @@ export default function BlogPost() {
     }
 
     if (response.status === 401) {
-      toast.success('Cannot create blogpost due missing parts. Please fill necesary parts.', {
+      toast.error('Cannot create blogpost due missing parts. Please fill necesary parts.', {
         position: "top-center",
         hideProgressBar: true,
         theme: "dark",
