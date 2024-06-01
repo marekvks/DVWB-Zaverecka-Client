@@ -160,7 +160,7 @@ export default function BlogPostDetails({params}){
                         <div dangerouslySetInnerHTML={{ __html: htmlOutput}} className={styles.markdownBody} />
                     </article>
                     {me.id_user === blogPost.id_author &&
-                        <Link href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit blogpost</Link>
+                        <Link href={`/editBlogPost/${blogPost.id_blogpost}`} className="mt-16 self-start border border-greenBright px-10 py-2 rounded-xl hover:bg-greenDark transition-all">Edit post</Link>
                     }
                     <section className="mt-20">
                         {me.id_user &&

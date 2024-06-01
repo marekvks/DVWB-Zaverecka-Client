@@ -47,6 +47,15 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
         })();
     }, []);
 
+    /*
+    <div className="flex gap-2">
+            <button>
+                <Image src='/hearth.png' width={20} height={20}></Image>
+            </button>
+        <p>{likes}</p>
+    </div>
+    */
+
     return(
         <article className="self-center w-10/12 h-44 border border-solid border-greenDark flex flex-col items-center overflow-hidden rounded-lg">
             <div className="w-11/12 h-1/12 flex flex-row justify-between gap-2 mt-2">
@@ -65,12 +74,6 @@ export default function BlogPostCard({blogpostId, title, description, tags, auth
             <div className="w-11/12 h-full overflow-hidden">
                 <Link href={`/blogPost/${blogpostId}`} className="text-xl font-bold hover:text-greenBright transition-all">{title}</Link>
                 <p className="text-greyText text-elipsis max-h-11/12 overflow-hidden">{description}</p>
-                <div className="flex gap-2">
-                <button>
-                    <Image src='/hearth.png' width={20} height={20}></Image>
-                </button>
-                <p>{likes}</p>
-                </div>
             </div>
             <div className="self-end mr-8 mb-2">
                 <span>{date}</span>

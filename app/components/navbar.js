@@ -84,7 +84,7 @@ export default function Navbar({ search = false }) {
         <header className="flex justify-center w-full h-20">
                 <nav className="flex flex-row justify-center w-4/5 border-b border-solid border-grey">
                     <div className="flex flex-row justify-between items-center w-10/12">
-                        <Link href="/" className="text-3xl transition-all hover:text-greenBright">BlogPost</Link>
+                        <Link href="/" className="text-3xl transition-all font-medium hover:text-greenBright">BlogPost</Link>
                         <div className="flex flex-row justify-center items-center w-8/12">
                             {!search &&
                                 <div className="flex flex-row gap-20 ml-72">

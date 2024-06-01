@@ -84,7 +84,7 @@ export default function Followers({params}) {
         <main>
             <Navbar />
             <section className="flex flex-col items-center">
-                <h2 className="text-2xl mt-8"><a href={`/user/${user.username}`} className="normal-link">{user.username}</a> followers:</h2>
+                <h2 className="text-2xl mt-8"><a href={`/user/${user.username}`} className="normal-link">{user.username}'s</a> followers:</h2>
                 <section className="flex flex-col w-1/4 gap-4 mt-8">
                     {following.map((follow, index) => {
                         return (
