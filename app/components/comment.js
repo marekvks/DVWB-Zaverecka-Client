@@ -48,11 +48,11 @@ export default function Comment({ id_author, content, date}) {
     }, []);
 
     return (
-        <article className="flex flex-row justify-between w-full">
+        <article className="flex flex-row justify-between w-full overflow-hidden">
             <Image src={avatar} alt="Avatar" width={40} height={40} className="min-w-14 min-h-14 w-14 h-14 rounded-full border border-solid border-greenBright" />
             <div className="flex flex-col justify-start mt-1 ml-4" style={{ marginRight: 'auto' }}>
                 <Link href={`/user/${author.username}`} className="normal-link text-lg">{author.username}</Link>
-                <p className="mt text-greyText text-justify w-full overflow-hidden">{content}</p>
+                <p className="mt text-greyText text-justify w-full w-max-full text-pretty break-all">{content}</p>
             </div>
             <span>{initDate}</span>
         </article>
